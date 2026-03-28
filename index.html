@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ResellFlow Pro</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #020617, #0f172a);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.container {
+  max-width: 420px;
+  margin: auto;
+  background: rgba(30,41,59,0.9);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.6);
+}
+
+h1 {
+  color: #22c55e;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #94a3b8;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  width: 95%;
+  padding: 12px;
+  background: #22c55e;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #16a34a;
+}
+
+.result {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.tag {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.good { color: #22c55e; }
+.bad { color: #ef4444; }
+.mid { color: #f59e0b; }
+
+.box {
+  margin-top: 20px;
+  padding: 15px;
+  background: #020617;
+  border-radius: 10px;
+}
+
+.price {
+  font-size: 22px;
+  color: #22c55e;
+}
+</style>
+</head>
+
+<body>
+
+<h1>ResellFlow Pro</h1>
+<p class="subtitle">Flip smarter. Profit faster.</p>
+
+<div class="container">
+
+<h3>Profit Calculator</h3>
+
+<input id="buy" placeholder="Buy Price">
+<input id="sell" placeholder="Sell Price">
+<input id="shipping" placeholder="Shipping Cost">
+<input id="fees" placeholder="Platform Fees">
+
+<button onclick="calculate()">Analyze Deal</button>
+
+<div class="result" id="result"></div>
+<div class="tag" id="tag"></div>
+
+<div class="box">
+<h3>Shipping Insight</h3>
+<p id="shippingTip">Enter deal to get advice</p>
+</div>
+
+<div class="box">
+<h3>Upgrade</h3>
+<p>Unlock buyer tracking & advanced analytics</p>
+<p class="price">$9/month</p>
+<button onclick="subscribe()">Start Free Trial</button>
+</div>
+
+</div>
+
+<script>
+function calculate() {
+  let buy = parseFloat(document.getElementById("buy").value);
+  let sell = parseFloat(document.getElementById("sell").value);
+  let shipping = parseFloat(document.getElementById("shipping").value) || 0;
+  let fees = parseFloat(document.getElementById("fees").value) || 0;
+
+  if (!buy || !sell) {
+    document.getElementById("result").innerText = "Enter valid numbers";
+    return;
+  }
+
+  let profit = sell - buy - shipping - fees;
+  let roi = ((profit / buy) * 100).toFixed(1);
+
+  document.getElementById("result").innerText =
+    "Profit: $" + profit.toFixed(2) + " | ROI: " + roi + "%";
+
+  let tag = "";
+  if (profit > 50) {
+    tag = "🔥 Great Deal";
+    document.getElementById("tag").className = "tag good";
+  } else if (profit > 10) {
+    tag = "⚠️ Decent Deal";
+    document.getElementById("tag").className = "tag mid";
+  } else {
+    tag = "❌ Not Worth It";
+    document.getElementById("tag").className = "tag bad";
+  }
+
+  document.getElementById("tag").innerText = tag;
+
+  let tip = "Use USPS for lightweight items";
+  if (shipping > 15) tip = "Try UPS or FedEx for heavy items";
+
+  document.getElementById("shippingTip").innerText = tip;
+}
+
+function subscribe() {
+  alert("Subscription system coming next (Stripe integration)");
+}
+</script>
+
+</body>
+</html>
